@@ -1,35 +1,26 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 
 import './App.css'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import Layout from './components/layout/Layout'
+import { storageService } from './services/storage-service'
+import { PdfInfo, usePdfStore } from './stores/usePdfStore'
+import { PDF_HISTORY_LIST } from './utils/constants'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [setPdfHistory] = usePdfStore((state) => [state.setPdfHistory])
+
+  useEffect(() => {
+    const localPdfHistory = storageService.get<PdfInfo[]>(PDF_HISTORY_LIST)
+
+    if (localPdfHistory) {
+      setPdfHistory(localPdfHistory)
+    }
+  }, [])
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Hello Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="">
+      <Layout />
+    </div>
   )
 }
 
