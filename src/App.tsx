@@ -17,11 +17,7 @@ function App() {
     }
   }, [])
 
-  return (
-    <div className="">
-      <Layout />
-    </div>
-  )
+  return <Layout />
 }
 
 export default App
